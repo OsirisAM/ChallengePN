@@ -7,12 +7,13 @@ public class PlayerManager : MonoBehaviour
     #region PrimitiveVariables
     int handSize = 5;
     int pokerPoints = 0;
+    int numberOfCardsReturned = 0;
+    List<int> handPosition = new List<int>();
     #endregion
 
     #region GameVariables
-    List<GameObject> handCards = new List<GameObject>();
-    List<GameObject> cardsToReplace = new List<GameObject>();
-
+    List<GameObject> cardsInHand= new List<GameObject>();
+    List<GameObject> selectedCards = new List<GameObject>();
     PokerCard cardManager;
     #endregion
 
@@ -34,10 +35,25 @@ public class PlayerManager : MonoBehaviour
         set {pokerPoints = value;}
     }
 
-    public List<GameObject> HandOfCards
+    public int NumberOfCardsReturned
     {
-        get{return handCards;}
-        set{handCards = value;}
+        get{return numberOfCardsReturned;}
+        set{numberOfCardsReturned = value;}
+    }
+
+    public List<GameObject> CardsInHand
+    {
+        get{return cardsInHand;}
+        set{cardsInHand = value;}
+    }
+    public List<GameObject> SelectedCards 
+    {
+        get{return selectedCards;}
+        set{selectedCards = value;}
+    }
+    public List<int> HandPosition 
+    {
+        get{return handPosition;}
     }
     #endregion
 
@@ -45,40 +61,49 @@ public class PlayerManager : MonoBehaviour
 
     public void ReturnCards()
     {
-        for(int i = 0; i < cardsToReplace.Count;i++)
+        Debug.Log("Card Removed");
+        numberOfCardsReturned = selectedCards.Count;
+        for(int i = 0; i < selectedCards.Count;i++)
         {
-            
+            selectedCards[i].GetComponent<PokerCard>().PrintInfo();
+            cardsInHand.Remove(selectedCards[i]);
+            Destroy(selectedCards[i]);
         }
+        selectedCards.Clear();
+        Debug.Log(cardsInHand.Count.ToString());
+    }
+
+    public void AddNewCards(GameObject newCard)
+    {
+        cardsInHand.Add(newCard);
     }
 
     #endregion
     
     #region Methods
-    public void SetListToRemove(GameObject cards)
+
+    public void DeSelectCard(GameObject card)
     {
-        Debug.Log(cardsToReplace.Count.ToString());
-        cardManager = cards.GetComponent<PokerCard>();
-        if(!cardManager.CardAdded)
+        selectedCards.Remove(card);
+        cardManager = card.GetComponent<PokerCard>();
+        cardManager.CardAdded = false;
+        Debug.Log("Card De Selected");
+    }
+    public void SelectCard(GameObject card)
+    {
+        Debug.Log("Card Selected");
+        cardManager = card.GetComponent<PokerCard>();
+        cardManager.CardAdded = true;
+        handPosition.Add(cardManager.HandPosition);
+        if(selectedCards.Count < 3)
         {
-            cardManager.CardAdded = true;
-            if(cardsToReplace.Count < 3)
-            {
-                cardsToReplace.Add(cards);
-                Debug.Log("Card Added");
-            }
-            else
-            {
-                Debug.Log("Limit Reached");
-            }
+            selectedCards.Add(card);
+            Debug.Log("Card Added");
         }
         else
         {
-            Debug.Log("Card already Added");
+            Debug.Log("Limit Reached");
         }
-
-
-        Debug.Log(cardsToReplace.Count.ToString());
-        
     }
     #endregion
 

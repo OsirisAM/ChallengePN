@@ -6,50 +6,91 @@ public class PokerCard : MonoBehaviour
 {
     #region Primitive Variables
     string palo = "";
+
     string color = "";
 
     string value = "";
 
     bool cardAdded = false;
+
+    int handPosition = 0;
     #endregion
     
     #region GameObjectVariables
-    Texture cardTexture;
-
+    SpriteRenderer cardSpriteRenderer;
+    Sprite cardSprite;
     [SerializeField]
     PlayerManager playerManager;
 
     [SerializeField]
-    GameObject card ;
+    GameObject card;
+
     #endregion
 
     #region AccesMethod
+
+    public string Palo
+    {
+        get{return palo;}
+        set{palo = value;}
+    }
+
+    public string Color 
+    {
+        get{return color;}
+        set{color = value;}
+    }
+
+    public string Value 
+    {
+        get{return value;}
+        set{this.value = value;}
+    }
 
     public bool CardAdded
     {
         get{return cardAdded;}
         set{cardAdded = value;}
     }
-    
+    public int HandPosition
+    {
+        get{return handPosition;}
+    }
+    public Sprite CardSprite 
+    {
+        get{return cardSprite;}
+    }
     #endregion
-
 
 
     #region Methods
     
-    public void SetCard(string palo,string color,string value,Texture cardTexture)
+    public void SetCard(string palo,string color,string value,Sprite cardSprite)
     {
         this.palo = palo;
         this.color = color;
         this.value = value;
-        this.cardTexture = cardTexture;
+
+        this.cardSpriteRenderer = card.GetComponent<SpriteRenderer>();
+        this.cardSpriteRenderer.sprite = cardSprite;
+        this.cardSprite = cardSpriteRenderer.sprite;
     }
     public void SetCard(string palo,string color,string value)
     {
         this.palo = palo;
         this.color = color;
         this.value = value;
-        
+    }
+    public void SetHandPosition(int handPosition)
+    {
+        this.handPosition = handPosition;
+    }
+    public void SetSprite(Sprite cardSprite)
+    {
+        this.cardSpriteRenderer = card.GetComponent<SpriteRenderer>();
+        this.cardSpriteRenderer.sprite = cardSprite;
+        this.cardSprite = cardSpriteRenderer.sprite;
+
     }
     public void SetPlayer(PlayerManager pm)
     {
@@ -61,12 +102,15 @@ public class PokerCard : MonoBehaviour
         Debug.Log(color+"\n");
         Debug.Log(value+"\n");
         Debug.Log(cardAdded);
+        Debug.Log(handPosition.ToString());
     }
     void OnMouseDown()
     {
-        Debug.Log("CardClicked");
         PrintInfo();
-        playerManager.SetListToRemove(card);
+        if(!cardAdded)
+            playerManager.SelectCard(card);
+        else
+            playerManager.DeSelectCard(card);
     }
     #endregion
 
