@@ -34,12 +34,18 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    public GameObject ReturnCard(int randomCard)
+    public GameObject GiveCard(int randomCard)
     {
         cardToReturn = deckOfCards[randomCard];
         deckOfCards.Remove(cardToReturn);
         Debug.Log(deckOfCards.Count.ToString());
         return cardToReturn;
+    }
+
+    public void ReturnCard(GameObject card)
+    {
+        deckOfCards.Add(card);
+        Debug.Log(deckOfCards.Count.ToString());
     }
 
     public int DeckCount()

@@ -10,13 +10,15 @@ public class TableManager : MonoBehaviour
 
     #region GameVariables 
     [SerializeField]
+    CheckHandPointsManager pointsManager;
+    [SerializeField]
     PlayerManager playerManager;
     [SerializeField]
     DeckManager deckManager;
     [SerializeField]
     GameObject card;
     [SerializeField]
-    GameObject table;
+    GameObject playerHand;
 
 
     PokerCard cardToPlayer;
@@ -38,9 +40,10 @@ public class TableManager : MonoBehaviour
         for(int i = 0; i < 5;i++)
         {
             int randomCard = Random.Range(0,deckManager.DeckCount());
-            card = deckManager.ReturnCard(randomCard);
+            card = deckManager.GiveCard(randomCard);
+
             tempCard = Instantiate(card,cardsPosition[i],Quaternion.identity);
-            tempCard.transform.SetParent(table.transform);
+            tempCard.transform.SetParent(playerHand.transform);
 
             cardToPlayer = tempCard.GetComponent<PokerCard>();
             cardFromDeck = card.GetComponent<PokerCard>();
@@ -68,11 +71,26 @@ public class TableManager : MonoBehaviour
         GameObject newCard;
         for(int i = 0;i < playerManager.NumberOfCardsReturned;i++)
         {
+            int randomCard = Random.Range(0,deckManager.DeckCount());
+            card = deckManager.GiveCard(randomCard);
+
             newCard = Instantiate(card,cardsPosition[playerManager.HandPosition[i]],Quaternion.identity);
-            newCard.transform.SetParent(table.transform);
+            newCard.transform.SetParent(playerHand.transform);
+
+            cardToPlayer = newCard.GetComponent<PokerCard>();
+            cardFromDeck = card.GetComponent<PokerCard>();
+            cardToPlayer.Palo = cardFromDeck.Palo;
+            cardToPlayer.Color = cardFromDeck.Color;
+            cardToPlayer.Value = cardFromDeck.Value;
+            cardToPlayer.SetSprite(cardFromDeck.CardSprite);
+            cardToPlayer.SetHandPosition(i);
+            cardToPlayer.SetPlayer(playerManager);
+
+
             playerManager.AddNewCards(newCard);
         }
         playerManager.HandPosition.Clear();
+        pointsManager.CheckHand();
     }
     #endregion
 
@@ -81,10 +99,10 @@ public class TableManager : MonoBehaviour
     private void SetCardsPositions()
     {
         cardsPosition.Add(new Vector3(-3,0,0));
-        cardsPosition.Add(new Vector3(0,0,0));
+        cardsPosition.Add(new Vector3(-1,0,0));
+        cardsPosition.Add(new Vector3(1,0,0));
         cardsPosition.Add(new Vector3(3,0,0));
-        cardsPosition.Add(new Vector3(6,0,0));
-        cardsPosition.Add(new Vector3(9,0,0));
+        cardsPosition.Add(new Vector3(5,0,0));
     }
     #endregion
 }

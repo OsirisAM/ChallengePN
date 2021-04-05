@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -12,12 +13,22 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region GameVariables
+    [SerializeField]
+    Text pointsText;
+    [SerializeField]
+    DeckManager deckManager;
     List<GameObject> cardsInHand= new List<GameObject>();
     List<GameObject> selectedCards = new List<GameObject>();
     PokerCard cardManager;
     #endregion
 
     #region MonoBehaviour
+    private void Update() {
+        if(pokerPoints > 0)
+        {
+            pointsText.text = pokerPoints.ToString();
+        }    
+    }
     #endregion
 
 
@@ -63,19 +74,19 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("Card Removed");
         numberOfCardsReturned = selectedCards.Count;
-        for(int i = 0; i < selectedCards.Count;i++)
+        for(int i = 0; i < numberOfCardsReturned;i++)
         {
-            selectedCards[i].GetComponent<PokerCard>().PrintInfo();
             cardsInHand.Remove(selectedCards[i]);
+            deckManager.ReturnCard(selectedCards[i]);
             Destroy(selectedCards[i]);
         }
-        selectedCards.Clear();
         Debug.Log(cardsInHand.Count.ToString());
     }
 
     public void AddNewCards(GameObject newCard)
     {
         cardsInHand.Add(newCard);
+        selectedCards.Clear();
     }
 
     #endregion
@@ -92,6 +103,8 @@ public class PlayerManager : MonoBehaviour
     public void SelectCard(GameObject card)
     {
         Debug.Log("Card Selected");
+        Vector3 tempPosition = new Vector3(0,1,0);
+        card.transform.position += tempPosition;
         cardManager = card.GetComponent<PokerCard>();
         cardManager.CardAdded = true;
         handPosition.Add(cardManager.HandPosition);

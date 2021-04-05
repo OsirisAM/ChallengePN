@@ -14,6 +14,8 @@ public class PokerCard : MonoBehaviour
     bool cardAdded = false;
 
     int handPosition = 0;
+
+    int numberInHand = 0 ;
     #endregion
     
     #region GameObjectVariables
@@ -51,6 +53,11 @@ public class PokerCard : MonoBehaviour
     {
         get{return cardAdded;}
         set{cardAdded = value;}
+    }
+    public int NumberInHand 
+    {
+        get{return numberInHand;}
+        set{numberInHand = value;}
     }
     public int HandPosition
     {
