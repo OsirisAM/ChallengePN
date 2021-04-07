@@ -113,7 +113,7 @@ public class PokerCard : MonoBehaviour
     }
     void OnMouseDown()
     {
-        PrintInfo();
+        //PrintInfo();
         if(!cardAdded)
             playerManager.SelectCard(card);
         else

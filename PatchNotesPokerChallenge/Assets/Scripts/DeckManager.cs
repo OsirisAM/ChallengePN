@@ -38,14 +38,14 @@ public class DeckManager : MonoBehaviour
     {
         cardToReturn = deckOfCards[randomCard];
         deckOfCards.Remove(cardToReturn);
-        Debug.Log(deckOfCards.Count.ToString());
+        //Debug.Log(deckOfCards.Count.ToString());
         return cardToReturn;
     }
 
     public void ReturnCard(GameObject card)
     {
         deckOfCards.Add(card);
-        Debug.Log(deckOfCards.Count.ToString());
+        //Debug.Log(deckOfCards.Count.ToString());
     }
 
     public int DeckCount()
@@ -53,6 +53,12 @@ public class DeckManager : MonoBehaviour
         return deckOfCards.Count;
     }
 
+    public void ResetDeck()
+    {
+        int numberOfCards = deck.transform.childCount;
+        for(int i = 0; i < numberOfCards;i++)
+            Destroy(deck.transform.GetChild(i).gameObject);
+    }
 
     public void SetDeckOfCards()
     {
@@ -93,10 +99,10 @@ public class DeckManager : MonoBehaviour
             switch(i)
             {
                 case 0:
-                    cardValueHearts[i] = "As";
-                    cardValueClover[i] = "As";
-                    cardValueDiamond[i] = "As";
-                    cardValueSpades[i] = "As";
+                    cardValueHearts[i] = "1";
+                    cardValueClover[i] = "1";
+                    cardValueDiamond[i] = "1";
+                    cardValueSpades[i] = "1";
                     break;
                     
                 case 1:
@@ -163,23 +169,23 @@ public class DeckManager : MonoBehaviour
                     break;
                     
                 case 10:
-                    cardValueHearts[i] = "J";
-                    cardValueClover[i] = "J";
-                    cardValueDiamond[i] = "J";
-                    cardValueSpades[i] = "J";
+                    cardValueHearts[i] = "11";
+                    cardValueClover[i] = "11";
+                    cardValueDiamond[i] = "11";
+                    cardValueSpades[i] = "11";
                     break;
                     
                 case 11:
-                    cardValueHearts[i] = "Q";
-                    cardValueClover[i] = "Q";
-                    cardValueDiamond[i] = "Q";
-                    cardValueSpades[i] = "Q";
+                    cardValueHearts[i] = "12";
+                    cardValueClover[i] = "12";
+                    cardValueDiamond[i] = "12";
+                    cardValueSpades[i] = "12";
                     break;
                 case 12:
-                    cardValueHearts[i] = "K";
-                    cardValueClover[i] = "K";
-                    cardValueDiamond[i] = "K";
-                    cardValueSpades[i] = "K";
+                    cardValueHearts[i] = "13";
+                    cardValueClover[i] = "13";
+                    cardValueDiamond[i] = "13";
+                    cardValueSpades[i] = "13";
                     break;
             }
         }

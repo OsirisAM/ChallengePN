@@ -17,6 +17,10 @@ public class PlayerManager : MonoBehaviour
     Text pointsText;
     [SerializeField]
     DeckManager deckManager;
+    [SerializeField]
+    Button newCardButton;
+    [SerializeField]
+    Button replaceCardButton;
     List<GameObject> cardsInHand= new List<GameObject>();
     List<GameObject> selectedCards = new List<GameObject>();
     PokerCard cardManager;
@@ -72,7 +76,7 @@ public class PlayerManager : MonoBehaviour
 
     public void ReturnCards()
     {
-        Debug.Log("Card Removed");
+        //Debug.Log("Card Removed");
         numberOfCardsReturned = selectedCards.Count;
         for(int i = 0; i < numberOfCardsReturned;i++)
         {
@@ -80,7 +84,9 @@ public class PlayerManager : MonoBehaviour
             deckManager.ReturnCard(selectedCards[i]);
             Destroy(selectedCards[i]);
         }
-        Debug.Log(cardsInHand.Count.ToString());
+        //Debug.Log(cardsInHand.Count.ToString());
+        replaceCardButton.gameObject.SetActive(false);
+        newCardButton.gameObject.SetActive(true);
     }
 
     public void AddNewCards(GameObject newCard)
@@ -96,13 +102,15 @@ public class PlayerManager : MonoBehaviour
     public void DeSelectCard(GameObject card)
     {
         selectedCards.Remove(card);
+        Vector3 tempPosition = new Vector3(0,1,0);
+        card.transform.position -= tempPosition;
         cardManager = card.GetComponent<PokerCard>();
         cardManager.CardAdded = false;
-        Debug.Log("Card De Selected");
+        //Debug.Log("Card De Selected");
     }
     public void SelectCard(GameObject card)
     {
-        Debug.Log("Card Selected");
+        //Debug.Log("Card Selected");
         Vector3 tempPosition = new Vector3(0,1,0);
         card.transform.position += tempPosition;
         cardManager = card.GetComponent<PokerCard>();
@@ -111,11 +119,11 @@ public class PlayerManager : MonoBehaviour
         if(selectedCards.Count < 3)
         {
             selectedCards.Add(card);
-            Debug.Log("Card Added");
+            //Debug.Log("Card Added");
         }
         else
         {
-            Debug.Log("Limit Reached");
+            //Debug.Log("Limit Reached");
         }
     }
     #endregion
