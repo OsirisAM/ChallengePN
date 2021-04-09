@@ -3,6 +3,7 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - CheckHandPointsManager
     - DeckManager
+    - DialogManager
     - PlayerManager
     - PokerCard
     - RestartManager
@@ -11,10 +12,13 @@ ScriptsOnlyBuild:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
     - UnityEditor.U2D.IK.IKEditorManager
+    - UnityEditor.U2D.IK.IKGizmos
     Unity.2D.IK.Runtime.dll:
     - UnityEditor.U2D.IK.IKEditorManagerHelper
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridPaintingState
+    - UnityEditor.Tilemaps.GridPaletteBrushes
+    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
@@ -51,6 +55,10 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 82
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
@@ -79,6 +87,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 4216}
     - Class: 114
       Script: {instanceID: 5036}
+    - Class: 114
+      Script: {instanceID: 23000}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -454,7 +464,7 @@ ScriptsOnlyBuild:
     className: Outline
   - hash:
       serializedVersion: 2
-      Hash: 20a6d7fc98ffa7de1d963821d377a9d5
+      Hash: 35d0b56a22c1024891539645e4428c28
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: TableManager
@@ -734,7 +744,13 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.IK.Runtime.dll
     namespaceName: UnityEngine.U2D.IK
     className: FabrikSolver2D
+  - hash:
+      serializedVersion: 2
+      Hash: 5432d7df30f354e6d5f3c53e3b3278b7
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DialogManager
   platform: 5
   scenePathNames:
   - Assets/Scenes/GameScene.unity
-  playerPath: D:/Unity Builds/Poker Challenge/PatchNotesPokerChallenge.exe
+  playerPath: D:/Unity Builds/Poker Challenge Windows/PatchNotesPokerChallenge.exe

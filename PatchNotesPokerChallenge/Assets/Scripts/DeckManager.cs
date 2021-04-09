@@ -5,35 +5,44 @@ using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
+    /// <summary>
+    /// Variables necesarias para el funcionamiento del juego como prefab de la carta 
+    /// las texturas de las cartas, los valores de las mismas y listas de objetos
+    /// simulando el deck de cartas
+    /// </summary>
+    #region Cards Variables
+    #region Sprite Textures
     public Sprite[] cardsTextureHearts = new Sprite[13];
     public Sprite[] cardsTextureClover= new Sprite[13];
     public Sprite[] cardsTextureDiamond = new Sprite[13];
     public Sprite[] cardsTextureSpades = new Sprite[13];
+    #endregion
 
+    #region Cards Values
     string[] cardValueHearts = new string[13];
     string[] cardValueClover = new string[13];
     string[] cardValueDiamond = new string[13];
     string[] cardValueSpades = new string[13];
+    #endregion
 
-    List<GameObject> deckOfCards = new List<GameObject>(); 
-    
+
+    #region GameVariables
     [SerializeField]
     GameObject card;
     [SerializeField]
     GameObject deck;
-
+    List<GameObject> deckOfCards = new List<GameObject>();
     PokerCard cardInfo;
     GameObject cardToReturn;
+    #endregion
 
-
-    public void PrintDeckInfo()
-    {
-        foreach(GameObject cardInfo in deckOfCards)
-        {
-            cardInfo.GetComponent<PokerCard>().PrintInfo();
-        }
-    }
-
+    #endregion
+    /// <summary>
+    /// Metodos publicos que utiliza el Dealer de las cartas el Table Manager para regresar
+    /// dar carta, contar el deck, barajear o reset del deck y iniciar o crear el deck 
+    /// de cartas
+    /// </summary>
+    #region PublicMethods
     public GameObject GiveCard(int randomCard)
     {
         cardToReturn = deckOfCards[randomCard];
@@ -58,6 +67,7 @@ public class DeckManager : MonoBehaviour
         int numberOfCards = deck.transform.childCount;
         for(int i = 0; i < numberOfCards;i++)
             Destroy(deck.transform.GetChild(i).gameObject);
+        deckOfCards.Clear();
     }
 
     public void SetDeckOfCards()
@@ -81,8 +91,18 @@ public class DeckManager : MonoBehaviour
             deckOfCards.Add(SetCardInformation(card,cardsTextureSpades[i],"Black",cardValueSpades[i],"Spades"));
         }
     }
-
-
+    #endregion
+    /// <summary>
+    /// Metodos privados donde se inicializan las cartas con los sprites, el color
+    /// el palo ( categoria ) a la que pretenecen asi como su valor
+    /// </summary>
+    /// <param name="card"></param>
+    /// <param name="cardSprite"></param>
+    /// <param name="color"></param>
+    /// <param name="value"></param>
+    /// <param name="palo"></param>
+    /// <returns></returns>
+    #region PrivateMethods
     private GameObject SetCardInformation(GameObject card,Sprite cardSprite,string color,string value,string palo)
     {
         GameObject tempCard;
@@ -190,4 +210,5 @@ public class DeckManager : MonoBehaviour
             }
         }
     }
-}   
+    #endregion
+}

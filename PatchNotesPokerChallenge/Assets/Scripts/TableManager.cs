@@ -20,6 +20,8 @@ public class TableManager : MonoBehaviour
 
     #region GUI Variable
     [SerializeField]
+    Button checkHandButton;
+    [SerializeField]
     Button replaceCardButton;
     [SerializeField]
     Button newCardsButton;
@@ -68,13 +70,14 @@ public class TableManager : MonoBehaviour
         deckManager.ResetDeck();
 
         StartCoroutine("WaitProcess");
-
         SetCardsPositions();
         deckManager.SetDeckOfCards();
-        deckManager.PrintDeckInfo();
         SetPlayersHand();
-
-
+        checkHandButton.gameObject.SetActive(true);
+        replaceCardButton.gameObject.SetActive(true);
+        newCardsButton.gameObject.SetActive(false);
+        resetGameButton.gameObject.SetActive(false);
+        playAgainButton.gameObject.SetActive(false);
     }
     public void GiveNewCards()
     {
@@ -83,26 +86,35 @@ public class TableManager : MonoBehaviour
         {
             int randomCard = Random.Range(0,deckManager.DeckCount());
             card = deckManager.GiveCard(randomCard);
-            newCard = Instantiate(card,cardsPosition[playerManager.HandPosition[i]],Quaternion.identity);
-            newCard.transform.SetParent(playerHand.transform);
+            Vector3 newCardVector = cardsPosition[playerManager.HandPosition[i]];
+            newCard = Instantiate(card,newCardVector,Quaternion.identity);
             cardToPlayer = newCard.GetComponent<PokerCard>();
             cardFromDeck = card.GetComponent<PokerCard>();
+
             cardToPlayer.Palo = cardFromDeck.Palo;
             cardToPlayer.Color = cardFromDeck.Color;
             cardToPlayer.Value = cardFromDeck.Value;
             cardToPlayer.SetSprite(cardFromDeck.CardSprite);
             cardToPlayer.SetHandPosition(i);
             cardToPlayer.SetPlayer(playerManager);
+
+
             playerManager.AddNewCards(newCard);
         }
+        for(int i = 0;i < playerManager.CardsInHand.Count;i++)
+        {
+            playerManager.CardsInHand[i].transform.position = cardsPosition[i];
+            playerManager.CardsInHand[i].transform.SetParent(playerHand.transform);
+        }
         playerManager.HandPosition.Clear();
+
         pointsManager.CheckHand();
         newCardsButton.gameObject.SetActive(false);
+        checkHandButton.gameObject.SetActive(false);
         resetGameButton.gameObject.SetActive(true);
         playAgainButton.gameObject.SetActive(true);
     }
     #endregion
-
 
     #region PrivateMethods
     private void SetPlayersHand()
@@ -137,9 +149,11 @@ public class TableManager : MonoBehaviour
     }
     IEnumerator WaitProcess()
     {
+        resetingText.text = "Reiniciando";
         Debug.Log("Iniciado proceso de reinicio");
         yield return new WaitForSeconds(3f);
         Debug.Log("Termino proceso de reinicio");
+        resetingText.text = "";
     }
     #endregion
 }
